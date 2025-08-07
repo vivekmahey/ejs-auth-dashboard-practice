@@ -1,0 +1,25 @@
+{
+  "name": "ejs-auth-dashboard-practice",
+  "version": "1.0.0",
+  "description": "A collection of EJS-based practice modules including authentication, database integration, and error handling using Express.js, MongoDB, and ejs-mate templating.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vivekmahey/ejs-auth-dashboard-practice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/vivekmahey/ejs-auth-dashboard-practice/issues"
+  },
+  "homepage": "https://github.com/vivekmahey/ejs-auth-dashboard-practice#readme",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  }
+}
