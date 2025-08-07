@@ -9,6 +9,29 @@
 <body
   class="min-h-screen bg-gradient-to-tr from-indigo-900 via-purple-900 to-indigo-800 flex items-center justify-center px-6"
 >
+
+<!-- Flash Toasts -->
+<div id="toast-container" class="fixed top-4 right-4 z-50 space-y-3">
+  <% if (success) { %>
+    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow">
+      <%= success %>
+    </div>
+  <% } %>
+  <% if (error) { %>
+    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow">
+      <%= error %>
+    </div>
+  <% } %>
+</div>
+
+<script>
+  setTimeout(() => {
+    const container = document.getElementById('toast-container');
+    if (container) container.remove();
+  }, 2000); 
+</script>
+
+
   <div
     class="relative bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-3xl shadow-lg max-w-md w-full p-12 text-center"
   >
@@ -41,5 +64,6 @@
       >
     </div>
   </div>
+
 </body>
 </html>

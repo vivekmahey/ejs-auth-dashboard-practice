@@ -6,7 +6,30 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="min-h-screen bg-gradient-to-tr from-purple-900 via-indigo-900 to-blue-900 flex items-center justify-center px-6" style="background: radial-gradient(circle at top right, #7b2ff7, #971dcc, #3a0ca3);">
-  <div class="relative bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-3xl shadow-lg max-w-md w-full p-12 text-center"
+ 
+ <!-- Flash Toasts -->
+<div id="toast-container" class="fixed top-4 right-4 z-50 space-y-3">
+  <% if (success) { %>
+    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow">
+      <%= success %>
+    </div>
+  <% } %>
+  <% if (error) { %>
+    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow">
+      <%= error %>
+    </div>
+  <% } %>
+</div>
+<script>
+  setTimeout(() => {
+    const container = document.getElementById('toast-container');
+    if (container) container.remove();
+  }, 2000);
+</script>
+
+ 
+ 
+    <div class="relative bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-3xl shadow-lg max-w-md w-full p-12 text-center"
        style="box-shadow: 0 8px 32px 0 rgba(123, 47, 247, 0.4);">
     <h2 class="text-5xl font-extrabold text-white mb-10 drop-shadow-xl">Register</h2>
     <form action="/register" method="POST" class="space-y-8">
@@ -29,5 +52,8 @@
       <a href="/login2" class="underline hover:text-indigo-300">Already have an account? Login</a>
     </div>
   </div>
+
+
+  
 </body>
 </html>

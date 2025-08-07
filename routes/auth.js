@@ -18,27 +18,34 @@ router.get('/register',(req,res)=>{
     res.render('register')
 });
 
-router.post('/register',async (req,res)=>{
-    const {username,email,password}=req.body;
-    const hashed= await bcrypt.hash(password,12)
-await User.create({username,email,password:hashed});
-console.log("hashed ",hashed, password);
-   res.redirect('/login2');
-})
+router.post('/register', async (req, res) => {
+  const { username, email, password } = req.body;
+  const existingUser = await User.findOne({ email });
 
+  if (existingUser) {
+    req.flash('error', 'User already exists with that email!');
+    return res.redirect('/register');
+  }
 
-router.post('/login2',async(req,res)=>{
-    const {email,password} = req.body;
-    const user = await User.findOne({ email });
-
-if (user && await bcrypt.compare(password, user.password)) {
-        req.session.user=user
-        res.redirect('/dashboard2')
-    }
-else{
-    res.send('Invalid Creadentials !');
-}
+  const hashed = await bcrypt.hash(password, 12);
+  await User.create({ username, email, password: hashed });
+  req.flash('success', 'Registration successful! Please log in.');
+  res.redirect('/login2');
 });
+
+router.post('/login2', async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+
+  if (user && await bcrypt.compare(password, user.password)) {
+    req.session.user = user;
+    res.redirect('/dashboard2');
+  } else {
+    req.flash('error', 'Invalid credentials!');
+    res.redirect('/login2');
+  }
+});
+
 
 router.get('/dashboard2',(req,res)=>{
     if(!req.session.user){
@@ -54,5 +61,6 @@ router.get('/logout',(req,res)=>{
         res.redirect('/login2')
     });
 });
+
 
 module.exports=router

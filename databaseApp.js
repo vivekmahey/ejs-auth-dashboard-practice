@@ -4,14 +4,17 @@ const MongoStore= require('connect-mongo');
 const mongoose=require('mongoose');
 const app=express();
 const port =3000;
+const flash = require('connect-flash');
+
+
 
 mongoose.connect('mongodb://127.0.0.1:27017/authDemo')
-  .then(() => {
+.then(() => {
     console.log('MongoDB connected successfully.');
-  })
-  .catch((err) => {
+})
+.catch((err) => {
     console.error('MongoDB connection error:', err);
-  });
+});
 
 app.set('view engine','ejs');
 app.use(express.urlencoded({
@@ -24,6 +27,18 @@ app.use(session({
     saveUninitialized:false,
     store:MongoStore.create({mongoUrl: 'mongodb://127.0.0.1:27017/authDemo'})
 }));
+
+app.use(flash());
+
+// Make flash messages available in all EJS views
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+});
+
+
+
 
 const authRoutes=require("./routes/auth")
 app.use('/',authRoutes )
