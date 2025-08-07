@@ -5,7 +5,14 @@ const mongoose=require('mongoose');
 const app=express();
 const port =3000;
 
-mongoose.connect('mongodb://127.0.0.1:27017/authDemo');
+mongoose.connect('mongodb://127.0.0.1:27017/authDemo')
+  .then(() => {
+    console.log('MongoDB connected successfully.');
+  })
+  .catch((err) => {
+    console.error('MongoDB connection error:', err);
+  });
+
 app.set('view engine','ejs');
 app.use(express.urlencoded({
     extended: true
@@ -18,7 +25,7 @@ app.use(session({
     store:MongoStore.create({mongoUrl: 'mongodb://127.0.0.1:27017/authDemo'})
 }));
 
-const authRoutes=require("./auth/routes")
+const authRoutes=require("./routes/auth")
 app.use('/',authRoutes )
 
 app.listen(port,()=>{
