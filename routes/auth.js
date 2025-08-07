@@ -3,9 +3,17 @@ const app=express();
 const bcrypt=require('bcrypt');
 const router=express.Router();
 // const User = require('../models/User');
-const user = require('../models/user');
+const User = require('../models/User');
 const session = require('express-session');
 
+router.get('/',(req,res)=>{
+    res.render('register')
+})
+
+router.get('/login2', (req, res) => {
+  res.render('login2');
+});
+ 
 router.get('/register',(req,res)=>{
     res.render('register')
 });
@@ -14,12 +22,10 @@ router.post('/register',async (req,res)=>{
     const {username,email,password}=req.body;
     const hashed= await bcrypt.hash(password,12)
 await User.create({username,email,password:hashed});
+console.log("hashed ",hashed, password);
    res.redirect('/login2');
 })
 
-router.get('/login2',(req,res)=>{
-    res.render('login2')
-})
 
 router.post('/login2',async(req,res)=>{
     const {email,password} = req.body;
@@ -35,7 +41,7 @@ else{
 });
 
 router.get('/dashboard2',(req,res)=>{
-    if(!req.session,user){
+    if(!req.session.user){
         return res.redirect('/login2');
     }
     else{
@@ -44,7 +50,7 @@ router.get('/dashboard2',(req,res)=>{
 });
 
 router.get('/logout',(req,res)=>{
-    req.session.distroy(()=>{
+    req.session.destroy(()=>{
         res.redirect('/login2')
     });
 });
